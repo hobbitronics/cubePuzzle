@@ -10,13 +10,29 @@ const camera = new THREE.OrthographicCamera(
 );
 
 let cube;
-const renderer = new THREE.WebGLRenderer({});
+const renderer = new THREE.WebGLRenderer({ alpha: true });
 const light = new THREE.PointLight(0xffffff, 1, 100);
+renderer.setClearColor(0x000000, 0);
 
 camera.position.z = 5;
 renderer.setSize(window.innerWidth, window.innerHeight);
 light.position.set(0, 10, 10);
 scene.add(light);
+
+
+
+const video = document.getElementById('video');
+
+navigator.mediaDevices
+  .getUserMedia({ video: true, audio: false })
+  .then((stream) => {
+    video.srcObject = stream;
+    video.play();
+  })
+  .catch((err) => {
+    console.error(`An error occurred: ${err}`);
+  });
+
 
 document.body.appendChild(renderer.domElement);
 
