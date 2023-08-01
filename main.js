@@ -24,7 +24,11 @@ scene.add(light);
 const video = document.getElementById('video');
 
 navigator.mediaDevices
-  .getUserMedia({ video: true, audio: false })
+  .getUserMedia({
+    video: {
+      facingMode: 'environment',
+    }, audio: false
+  })
   .then((stream) => {
     video.srcObject = stream;
     video.play();
