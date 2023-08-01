@@ -42,6 +42,7 @@ function onMouseMove(event) {
   renderer.render(scene, camera);
 }
 function onTouchMove(event) {
+  event.preventDefault();
   let x = 0;
   let y = 0;
   x = event.touches[0].clientX;
