@@ -37,23 +37,21 @@ navigator.mediaDevices
 document.body.appendChild(renderer.domElement)
 
 //rotate the camera when the mouse moves
+let x = 0
+let y = 0
 function onMouseMove(event) {
-  let x = 0
-  let y = 0
-  x = event.clientX
-  y = event.clientY
+  x = event.clientX - window.innerWidth / 2
+  y = event.clientY - window.innerHeight / 2
   cube.rotation.x = y * 0.01
-  cube.rotation.y = x * -0.01
+  cube.rotation.y = x * 0.01
   renderer.render(scene, camera)
 }
 function onTouchMove(event) {
   event.preventDefault()
-  let x = 0
-  let y = 0
-  x = event.touches[0].clientX
-  y = event.touches[0].clientY
+  x = event.touches[0].clientX - window.innerWidth / 2
+  y = event.touches[0].clientY - window.innerHeight / 2
   cube.rotation.x = y * 0.01
-  cube.rotation.y = x * -0.01
+  cube.rotation.y = x * 0.01
   renderer.render(scene, camera)
 }
 
