@@ -1,13 +1,11 @@
 import * as THREE from "three";
+import WebGL from "three/addons/capabilities/WebGL.js";
 
 const loader = new THREE.ObjectLoader();
 
-
 //scene
 const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(
-  -1, 1, 1, -1, 1, 1000
-);
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 1000);
 
 let cube;
 const renderer = new THREE.WebGLRenderer({ alpha: true });
@@ -19,9 +17,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 light.position.set(0, 10, 10);
 scene.add(light);
 
-
-
-const video = document.getElementById('video');
+const video = document.getElementById("video");
 
 navigator.mediaDevices
   .getUserMedia({
@@ -37,16 +33,7 @@ navigator.mediaDevices
     console.error(`An error occurred: ${err}`);
   });
 
-
 document.body.appendChild(renderer.domElement);
-
-// function animate() {
-//   requestAnimationFrame(animate);
-//   cube.rotation.x += Math.random() * 0.1;
-//   cube.rotation.y += 0.01;
-renderer.render(scene, camera);
-// }
-// animate();
 
 //rotate the camera when the mouse moves
 function onMouseMove(event) {
@@ -82,10 +69,15 @@ loader.load(
 
   // onLoad callback
   function (obj) {
-    cube = obj
+    cube = obj;
     // Add the loaded object to the scene
     scene.add(cube);
-    renderer.render(scene, camera);
+    if (WebGL.isWebGLAvailable()) {
+      renderer.render(scene, camera);
+    } else {
+      const warning = WebGL.getWebGLErrorMessage();
+      document.getElementById("container").appendChild(warning);
+    }
 
     window.addEventListener("mousedown", onClick, false);
     window.addEventListener("mouseup", onRelease, false);
@@ -95,12 +87,11 @@ loader.load(
 
   // onProgress callback
   function (xhr) {
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
   },
 
   // onError callback
   function (err) {
-    console.error('An error happened');
+    console.error("An error happened");
   }
 );
-
