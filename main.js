@@ -41,8 +41,24 @@ function onMouseMove(event) {
   cube.rotation.y = x * -0.01;
   renderer.render(scene, camera);
 }
+function onTouchMove(event) {
+  let x = 0;
+  let y = 0;
+  x = event.touches[0].clientX;
+  y = event.touches[0].clientY;
+  cube.rotation.x = y * 0.01;
+  cube.rotation.y = x * -0.01;
+  renderer.render(scene, camera);
+}
 const onClick = () => window.addEventListener("mousemove", onMouseMove, false);
 const onRelease = () =>
   window.removeEventListener("mousemove", onMouseMove, false);
+const onTouchStart = () =>
+  window.addEventListener("touchmove", onTouchMove, false);
+const onTouchEnd = () =>
+  window.removeEventListener("touchmove", onTouchMove, false);
+
 window.addEventListener("mousedown", onClick, false);
 window.addEventListener("mouseup", onRelease, false);
+window.addEventListener("touchstart", onTouchStart, false);
+window.addEventListener("touchend", onTouchEnd, false);
