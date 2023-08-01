@@ -13,7 +13,7 @@ const light = new THREE.PointLight(0xffffff, 1, 100);
 renderer.setClearColor(0x000000, 0);
 
 camera.position.z = 5;
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(600, 200);
 light.position.set(0, 10, 10);
 scene.add(light);
 
