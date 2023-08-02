@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import WebGL from 'three/addons/capabilities/WebGL.js'
+import './style.css' //so Vite will hot load css changes
 
 const loader = new THREE.ObjectLoader()
 
@@ -9,13 +10,10 @@ const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 1000)
 
 let cube
 const renderer = new THREE.WebGLRenderer({ alpha: true })
-const light = new THREE.PointLight(0xffffff, 1, 100)
 renderer.setClearColor(0x000000, 0)
 
 camera.position.z = 5
-renderer.setSize(800, 200)
-light.position.set(0, 10, 10)
-scene.add(light)
+renderer.setSize(800, 600)
 
 const video = document.getElementById('video')
 
@@ -36,7 +34,7 @@ navigator.mediaDevices
 
 document.body.appendChild(renderer.domElement)
 
-//rotate the camera when the mouse moves
+//rotate the cube when the mouse moves
 let x = 0
 let y = 0
 function onMouseMove(event) {
