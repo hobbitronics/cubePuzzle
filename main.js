@@ -40,19 +40,28 @@ document.body.appendChild(renderer.domElement)
 let x = 0
 let y = 0
 function onMouseMove(event) {
-  x = event.clientX - window.innerWidth / 2
-  y = event.clientY - window.innerHeight / 2
-  cube.rotation.x = y * 0.01
-  cube.rotation.y = x * 0.01
-  renderer.render(scene, camera)
+  const diffX = event.clientX - x
+  const diffY = event.clientY - y
+  x = event.clientX
+  y = event.clientY
+  if (!(Math.abs(diffX) > 20 || Math.abs(diffY) > 20)) {
+    console.log(diffX, diffY)
+    cube.rotation.x += diffY * 0.01
+    cube.rotation.y += diffX * 0.01
+    renderer.render(scene, camera)
+  }
 }
 function onTouchMove(event) {
   event.preventDefault()
-  x = event.touches[0].clientX - window.innerWidth / 2
-  y = event.touches[0].clientY - window.innerHeight / 2
-  cube.rotation.x = y * 0.01
-  cube.rotation.y = x * 0.01
-  renderer.render(scene, camera)
+  const diffX = event.touches[0].clientX - x
+  const diffY = event.touches[0].clientY - y
+  x = event.touches[0].clientX
+  y = event.touches[0].clientY
+  if (!(Math.abs(diffX) > 20 || Math.abs(diffY) > 20)) {
+    cube.rotation.x += diffY * 0.01
+    cube.rotation.y += diffX * 0.01
+    renderer.render(scene, camera)
+  }
 }
 
 const onClick = () => window.addEventListener('mousemove', onMouseMove, false)
