@@ -68,9 +68,9 @@ const onClick = () => window.addEventListener('mousemove', onMouseMove, false)
 const onRelease = () =>
   window.removeEventListener('mousemove', onMouseMove, false)
 const onTouchStart = () =>
-  window.addEventListener('touchmove', onTouchMove, false)
+  window.addEventListener('touchmove', onTouchMove, { passive: false })
 const onTouchEnd = () =>
-  window.removeEventListener('touchmove', onTouchMove, false)
+  window.removeEventListener('touchmove', onTouchMove, { passive: false })
 
 loader.load(
   'model.json',
