@@ -70,8 +70,11 @@ const onTouchStart = () =>
 const onTouchEnd = () =>
   window.removeEventListener('touchmove', onTouchMove, { passive: false })
 
+const cubeName = document.getElementById('cubeName').value
+console.log(`loading ${cubeName}`)
+
 loader.load(
-  'model.json',
+  cubeName,
 
   // onLoad callback
   function (obj) {
