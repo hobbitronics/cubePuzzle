@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import WebGL from 'three/addons/capabilities/WebGL.js'
-import './style.css' //so Vite will hot load css changes
 
 const loader = new THREE.ObjectLoader()
 
