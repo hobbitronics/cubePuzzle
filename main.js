@@ -5,7 +5,7 @@ const loader = new THREE.ObjectLoader()
 
 //scene
 const scene = new THREE.Scene()
-const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 1000)
+const camera = new THREE.OrthographicCamera(-0.9, 0.9, 0.9, -0.9, 1, 1000)
 
 let cube
 const renderer = new THREE.WebGLRenderer({ alpha: true })
