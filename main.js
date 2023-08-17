@@ -40,7 +40,7 @@ navigator.mediaDevices
       video.play()
       document.body.removeEventListener('click', play)
     }
-    document.body.addEventListener('click',)
+    document.body.addEventListener('click', play)
   })
   .catch((err) => {
     console.error(`An error occurred: ${err}`)
