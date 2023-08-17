@@ -9,6 +9,10 @@
     pointer-events: none;
 }
 
+body {
+    overscroll-behavior: none
+}
+
 canvas {
     position: fixed;
     z-index: 10;
