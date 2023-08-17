@@ -36,7 +36,11 @@ navigator.mediaDevices
   .then((stream) => {
     video.srcObject = stream
     video.play()
-    document.body.addEventListener('click', () => { video.play() })
+    function play() {
+      video.play()
+      document.body.removeEventListener('click', play)
+    }
+    document.body.addEventListener('click',)
   })
   .catch((err) => {
     console.error(`An error occurred: ${err}`)
