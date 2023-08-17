@@ -55,7 +55,9 @@ function onMouseMove(event) {
     console.log(diffX, diffY)
     cube.rotation.x += diffY * 0.01
     cube.rotation.y += diffX * 0.01
-    renderer.render(scene, camera)
+    window.requestAnimationFrame(() => {
+      renderer.render(scene, camera)
+    })
   }
 }
 
