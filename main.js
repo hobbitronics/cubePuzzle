@@ -12,7 +12,17 @@ const renderer = new THREE.WebGLRenderer({ alpha: true })
 renderer.setClearColor(0x000000, 0)
 
 camera.position.z = 5
-renderer.setSize(800, 600)
+const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+scene.add(ambientLight)
+
+renderer.setClearColor(0x000000, 0);
+renderer.shadowMapType = THREE.PCFSoftShadowMap;
+
+camera.position.z = 5;
+const size = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
+renderer.setSize(size, size);
+
+
 
 const video = document.getElementById('video')
 
@@ -48,6 +58,8 @@ function onMouseMove(event) {
     renderer.render(scene, camera)
   }
 }
+
+
 function onTouchMove(event) {
   event.preventDefault()
   const diffX = event.touches[0].clientX - x
@@ -79,7 +91,13 @@ loader.load(
   function (obj) {
     cube = obj
     // Add the loaded object to the scene
-    scene.add(cube)
+    const light = new THREE.DirectionalLight(0xffffff, 4);
+    scene.add(light);
+    scene.add(cube);
+    light.target = cube;
+    light.castshadow = true;
+    light.position.set(10, 10, 10);
+
     if (WebGL.isWebGLAvailable()) {
       renderer.render(scene, camera)
     } else {
