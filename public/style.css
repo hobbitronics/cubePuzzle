@@ -21,3 +21,31 @@ canvas {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+#secret {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    border-radius: 0.5em;
+    color: rgb(0, 255, 0);
+    font-family: monospace;
+    background: black;
+    width: calc(100% - 20px);
+    border: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#secret::after {
+    content: "";
+    width: 8px;
+    height: 20px;
+    background: red;
+    display: inline-block;
+    opacity: 1;
+}
+
+#secret::placeholder,
+#secret::-webkit-input-placeholder {
+    color: rgb(0, 132, 0);
+}

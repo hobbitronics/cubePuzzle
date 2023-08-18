@@ -128,3 +128,14 @@ loader.load(
     console.error('An error happened')
   }
 )
+
+
+const secret = document.getElementById('secret');
+
+if (secret) {
+  document.addEventListener('input', (e) => {
+    if (e.target.value.toLowerCase().replaceAll(' ', '') === 'nailsonachalkboard') {
+      window.location.href = 'https://augescape.com'
+    }
+  })
+}
