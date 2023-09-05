@@ -67,6 +67,11 @@ function onMouseMove(event) {
 }
 
 
+function clampRadians(number) {
+	return Math.abs(number) > 6.28 ? number % 6.28 : number
+}
+
+
 function onTouchMove(event) {
 	event.preventDefault()
 	const diffX = event.touches[0].clientX - x
@@ -74,8 +79,10 @@ function onTouchMove(event) {
 	x = event.touches[0].clientX
 	y = event.touches[0].clientY
 	if (!(Math.abs(diffX) > 20 || Math.abs(diffY) > 20)) {
-		cube.rotation.x += diffY * 0.01
-		cube.rotation.y += diffX * 0.01
+		const newX = clampRadians(cube.rotation.x + diffY * 0.01)
+		const newY = clampRadians(cube.rotation.y + diffX * 0.01)
+		cube.rotation.x = newX
+		cube.rotation.y = newY
 		renderer.render(scene, camera)
 	}
 }
@@ -88,7 +95,10 @@ const onTouchStart = () =>
 const onTouchEnd = () =>
 	window.removeEventListener('touchmove', onTouchMove, { passive: false })
 
+const threeMinutes = 60 * 1000 * 3
+
 const cubeName = document.getElementById('cubeName').value
+
 console.log(`loading ${cubeName}`)
 
 loader.load(
@@ -112,10 +122,68 @@ loader.load(
 			document.getElementById('container').appendChild(warning)
 		}
 
-		window.addEventListener('mousedown', onClick, false)
-		window.addEventListener('mouseup', onRelease, false)
-		window.addEventListener('touchstart', onTouchStart, false)
-		window.addEventListener('touchend', onTouchEnd, false)
+		function orient() {
+			const [x, y] = document.getElementById('cubeName').getAttribute('data-orientation').split('|')
+			const frames = 24;
+			const currentX = cube.rotation.x
+			const currentY = cube.rotation.y
+			const xIncrease = (x - cube.rotation.x) / 24
+			const yIncrease = (y - cube.rotation.y) / 24
+			let frameCount = 0;
+
+			function step(newX, newY) {
+				cube.rotation.x = Number(newX)
+				cube.rotation.y = Number(newY)
+				frameCount++;
+
+				setTimeout(() => {
+					window.requestAnimationFrame(() => {
+						renderer.render(scene, camera)
+					})
+
+					if (frameCount < 24) {
+						step(newX + xIncrease, newY + yIncrease)
+					}
+				}, 1000 / frames)
+			}
+
+			step(currentX + xIncrease, currentY + yIncrease)
+
+
+
+			const message = document.createElement('div')
+			message.setAttribute('class', 'hint')
+			message.innerText = 'This is the correct cube position. Now look through it.'
+			document.body.appendChild(message)
+		}
+
+
+		function listen() {
+			window.addEventListener('mousedown', onClick, false)
+			window.addEventListener('mouseup', onRelease, false)
+			window.addEventListener('touchstart', onTouchStart, false)
+			window.addEventListener('touchend', onTouchEnd, false)
+		}
+
+		if (localStorage.getItem(cubeName)) {
+			const time = Date.now() - localStorage.getItem(cubeName)
+			if (time > threeMinutes) {
+				orient()
+			} else {
+				listen()
+				setTimeout(() => {
+					orient();
+					window.removeEventListener('mousedown', onClick)
+					window.removeEventListener('mouseup', onRelease)
+					window.removeEventListener('touchstart', onTouchStart)
+					window.removeEventListener('touchend', onTouchEnd)
+				}, threeMinutes - time)
+			}
+		} else {
+			listen()
+			localStorage.setItem(cubeName, Date.now().toString())
+		}
+
 	},
 
 	// onProgress callback
@@ -135,7 +203,7 @@ const secret = document.getElementById('secret');
 if (secret) {
 	document.addEventListener('input', (e) => {
 		if (e.target.value.toLowerCase().replaceAll(' ', '') === 'nailsonachalkboard') {
-			alert('you\'ve done it!')
+			window.location.href = 'https://youtu.be/sgDWYblsZGw'
 		}
 	})
 }

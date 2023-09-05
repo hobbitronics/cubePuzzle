@@ -45,6 +45,15 @@ canvas {
     opacity: 1;
 }
 
+.hint {
+    position: absolute;
+    top: 0;
+    padding: 1em;
+    color: white;
+    font-family: monospace;
+    text-shadow: 1px 1px black;
+}
+
 #secret::placeholder,
 #secret::-webkit-input-placeholder {
     color: rgb(0, 132, 0);
